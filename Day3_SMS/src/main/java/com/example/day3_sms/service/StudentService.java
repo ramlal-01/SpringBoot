@@ -35,4 +35,9 @@ public class StudentService {
         return repository.save(existingStudent);
     }
 
+    public void deleteStudent(String id){
+        repository.deleteById(id);
+    }
+
+
 }
