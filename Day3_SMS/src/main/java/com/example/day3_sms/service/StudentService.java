@@ -4,6 +4,8 @@ import com.example.day3_sms.model.StudentModel;
 import com.example.day3_sms.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentService {
 
@@ -16,4 +18,10 @@ public class StudentService {
     public StudentModel addStudent(StudentModel student) {
         return repository.save(student);
     }
+
+    // Display students
+    public List<StudentModel> getStudent(){
+        return repository.findAll();
+    }
+
 }
