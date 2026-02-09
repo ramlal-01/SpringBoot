@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gemini Prompt</title>
+</head>
+<body>
+
+<h2>Ask Gemini</h2>
+
+<textarea id="prompt" rows="5" cols="50"></textarea><br><br>
+<button onclick="sendPrompt()">Send</button>
+
+<h3>Response:</h3>
+<p id="response"></p>
+
+<script>
+    function sendPrompt() {
+        const promptText = document.getElementById("prompt").value;
+
+        fetch("/api/ask", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ prompt: promptText })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (!data || !data.response) {
+                    document.getElementById("response").innerText =
+                        "No response received";
+                    return;
+                }
+                document.getElementById("response").innerText = data.response;
+            })
+            .catch(() => {
+                document.getElementById("response").innerText =
+                    "Frontend error occurred";
+            });
+    }
+</script>
+
+
+</body>
+</html>
