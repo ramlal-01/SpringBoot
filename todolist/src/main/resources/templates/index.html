@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Todo List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+        .container {
+            width: 400px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 8px;
+        }
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        .done {
+            text-decoration: line-through;
+            color: gray;
+        }
+        a {
+            text-decoration: none;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Todo List</h2>
+
+    <!-- Add Todo -->
+    <form th:action="@{/add}" method="post" th:object="${todo}">
+        <input type="text" th:field="*{title}" placeholder="Enter task" required />
+        <div th:if="${#fields.hasErrors('title')}" style="color:red;">
+            <p th:errors="*{title}"></p>
+        </div>
+        <button type="submit">Add</button>
+    </form>
+
+
+
+    <!-- Todo List -->
+    <ul>
+        <li th:each="t : ${todos}">
+            <span th:text="${t.title}"
+                  th:classappend="${t.completed} ? 'done' : ''"></span>
+
+            <span>
+                <a th:href="@{/toggle/{id}(id=${t.id})}">
+                    ✔
+                </a>
+                <a th:href="@{/delete/{id}(id=${t.id})}">
+                    ❌
+                </a>
+            </span>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>
